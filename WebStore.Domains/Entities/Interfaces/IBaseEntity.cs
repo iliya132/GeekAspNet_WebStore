@@ -4,8 +4,8 @@ using System.Text;
 
 namespace WebStore.Domain.Entities.Interfaces
 {
-    public interface IOrderedEntity
+    public interface IBaseEntity
     {
-        public int Order { get; set; }
+        int Id { get; set; }
     }
 }

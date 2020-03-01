@@ -4,9 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebStore.DAL;
 using WebStore.Models;
 using WebStore.Models.Implementations;
 using WebStore.Models.Interfaces;
@@ -18,6 +20,7 @@ namespace WebStore
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
         }
 
         public IConfiguration Configuration { get; }
@@ -27,7 +30,11 @@ namespace WebStore
         {
 
             services.AddSingleton<IEmployeeDataProvider, InMemoryEmployeeService>();
-            services.AddSingleton<IProductData, InMemoryProductData>();
+            services.AddScoped<IProductData, SQLProductData>();
+            services.AddDbContext<WebStoreContext>(options=>
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            
 
             services.AddMvc(i=>i.EnableEndpointRouting=false);
         }
