@@ -7,13 +7,19 @@
 
     <div class="container">
         <hr />
-        <a asp-action="Edit" class="btn btn-success">Добавить</a>
+        @if (User.IsInRole("Administrator"))
+        {
+            <a asp-action="Edit" class="btn btn-success">Добавить</a>
+        }
         <hr />
         <table class="table table-bordered">
             @foreach (Employee employee in Model)
             {
-                <tr>
+            <tr>
+                @if (User.IsInRole("Administrator"))
+                {
                     <td><a asp-action="Edit" asp-route-id="@employee.Id"><i class="fa fa-edit"></i></a></td>
+                }
                     <td> @employee.FirstName</td>
                     <td>LastName: @employee.LastName</td>
                     <td>Patronymic: @employee.Patronymic</td>

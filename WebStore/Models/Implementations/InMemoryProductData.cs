@@ -13,6 +13,7 @@ namespace WebStore.Models.Implementations
     {
         private readonly List<Category> _categories;
         private readonly List<Brand> _brands;
+        private readonly List<Product> _products;
 
         public InMemoryProductData()
         {
@@ -411,8 +412,7 @@ namespace WebStore.Models.Implementations
                 products = products.Where(p => p.BrandId.HasValue && p.BrandId.Value.Equals(filter.BrandId.Value)).ToList();
             return products;
         }
-        private readonly List<Product> _products;
 
-
+        public Product GetProductById(int id) => _products.FirstOrDefault(i => i.Id == id);
     }
 }

@@ -25,23 +25,35 @@ namespace WebStore.Controllers
             CatalogViewModel model = new CatalogViewModel()
             {
                 BrandId = brandId,
-                SectionId = categoryId,
+                CategoryId = categoryId,
                 Products = products.Select(product => new ProductViewModel()
                 {
                     Id = product.Id,
                     ImageUrl = product.ImageUrl,
                     Name = product.Name,
                     Order = product.Order,
-                    Price = product.Price
+                    Price = product.Price,
+                    Brand = product.Brand != null ? product.Brand.Name : string.Empty
                 }).OrderBy(product => product.Order).ToList()
             };
 
             return View(model);
         }
 
-        public IActionResult ProductDetails()
+        public IActionResult ProductDetails(int id)
         {
-            return View();
+            var product = _productData.GetProductById(id);
+            if (product == null)
+                return NotFound();
+            return View(new ProductViewModel
+            {
+                Id = product.Id,
+                ImageUrl = product.ImageUrl,
+                Name = product.Name,
+                Order = product.Order,
+                Price = product.Price,
+                Brand = product.Brand != null ? product.Brand.Name : string.Empty
+            });
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Models;
 using WebStore.Models.Interfaces;
@@ -9,6 +10,7 @@ using WebStore.Models.Interfaces;
 namespace WebStore.Controllers
 {
     [Route("Employees")]
+    [Authorize]
     public class EmployeesController : Controller
     {
         List<Employee> _employees;
@@ -37,6 +39,7 @@ namespace WebStore.Controllers
 
         [HttpGet]
         [Route("edit/{id?}")]
+        [Authorize(Roles="Administrator")]
         public IActionResult Edit(int? id)
         {
             Employee model;
@@ -55,6 +58,7 @@ namespace WebStore.Controllers
 
         [HttpPost]
         [Route("Edit/{id?}")]
+        [Authorize(Roles = "Administrator")]
         public IActionResult Edit(Employee employee)
         {
             if (!ModelState.IsValid)

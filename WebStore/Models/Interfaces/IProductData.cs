@@ -12,5 +12,6 @@ namespace WebStore.Models.Interfaces
         IEnumerable<Brand> GetBrands();
         IEnumerable<Category> GetCategories();
         IEnumerable<Product> GetProducts(ProductFilter filter);
+        Product GetProductById(int id);
     }
 }

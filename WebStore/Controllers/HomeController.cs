@@ -27,12 +27,6 @@ namespace WebStore.Controllers
             return View();
         }
 
-        [Route("Cart")]
-        public IActionResult Cart()
-        {
-            return View();
-        }
-
         [Route("Checkout")]
         public IActionResult Checkout()
         {
