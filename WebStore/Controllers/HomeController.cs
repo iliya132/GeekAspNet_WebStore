@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using WebStore.Interfaces.Api;
 
 namespace WebStore.Controllers
 {
     [Route("Home")]
     public class HomeController : Controller
     {
+
         [Route("Index")]
         public IActionResult Index()
         {
             return View();
         }
+
 
         [Route("Blog")]
         public IActionResult Blog()
