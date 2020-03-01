@@ -235,9 +235,9 @@ namespace WebStore.DAL.TestDBInitializer
                     context.Categories.Add(section);
                 }
 
-                context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Categories] ON");
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Categories] ON");
                 context.SaveChanges();
-                context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Categories] OFF");
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Categories] OFF");
                 trans.Commit();
             }
 
@@ -293,9 +293,9 @@ namespace WebStore.DAL.TestDBInitializer
                     context.Brands.Add(brand);
                 }
 
-                context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Brands] ON");
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Brands] ON");
                 context.SaveChanges();
-                context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Brands] OFF");
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Brands] OFF");
                 trans.Commit();
             }
 
@@ -428,9 +428,9 @@ namespace WebStore.DAL.TestDBInitializer
                 {
                     context.Products.Add(product);
                 }
-                context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Products] ON");
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Products] ON");
                 context.SaveChanges();
-                context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Products] OFF");
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Products] OFF");
                 trans.Commit();
             }
 

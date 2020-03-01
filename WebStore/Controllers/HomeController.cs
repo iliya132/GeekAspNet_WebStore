@@ -46,10 +46,6 @@ namespace WebStore.Controllers
         }
 
         [Route("Login")]
-        public IActionResult Login()
-        {
-            return View();
-        }
 
         [Route("NotFound")]
         public new IActionResult NotFound()
