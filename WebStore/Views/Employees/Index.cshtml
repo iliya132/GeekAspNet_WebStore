@@ -1,0 +1,25 @@
+﻿@using WebStore.Models
+
+@model IEnumerable<Employee>
+@{
+    ViewData["Title"] = "All";
+}
+
+    <div class="container">
+        <hr />
+        <a asp-action="Edit" class="btn btn-success">Добавить</a>
+        <hr />
+        <table class="table table-bordered">
+            @foreach (Employee employee in Model)
+            {
+                <tr>
+                    <td><a asp-action="Edit" asp-route-id="@employee.Id"><i class="fa fa-edit"></i></a></td>
+                    <td> @employee.FirstName</td>
+                    <td>LastName: @employee.LastName</td>
+                    <td>Patronymic: @employee.Patronymic</td>
+                    <td><a asp-action="Details" asp-route-id="@employee.Id">Детали</a></td>
+                </tr>
+
+            }
+        </table>
+    </div>

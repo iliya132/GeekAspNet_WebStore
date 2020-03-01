@@ -1,0 +1,16 @@
+﻿@using WebStore.Models
+
+@model Employee
+@{
+    ViewData["Title"] = "Детали";
+}
+
+<div class="container">
+    <table class="table table-bordered">
+            <tr>
+                <td>Name: @Model.FirstName</td>
+                <td>LastName: @Model.LastName</td>
+                <td>Patronymic: @Model.Patronymic</td>
+            </tr>
+    </table>
+</div>
