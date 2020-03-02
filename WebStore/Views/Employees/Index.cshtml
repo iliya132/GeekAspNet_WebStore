@@ -1,6 +1,6 @@
-﻿@using WebStore.Models
+﻿@using WebStore.Domain.ViewModels
 
-@model IEnumerable<Employee>
+@model IEnumerable<EmployeeViewModel>
 @{
     ViewData["Title"] = "All";
 }
@@ -13,7 +13,7 @@
         }
         <hr />
         <table class="table table-bordered">
-            @foreach (Employee employee in Model)
+            @foreach (EmployeeViewModel employee in Model)
             {
             <tr>
                 @if (User.IsInRole("Administrator"))

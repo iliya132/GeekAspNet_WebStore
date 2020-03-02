@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebStore.Domain.ViewModels;
 using WebStore.Models;
 using WebStore.Models.Interfaces;
 
@@ -13,7 +14,7 @@ namespace WebStore.Controllers
     [Authorize]
     public class EmployeesController : Controller
     {
-        List<Employee> _employees;
+        List<EmployeeViewModel> _employees;
         IEmployeeDataProvider _db;
 
         public EmployeesController(IEmployeeDataProvider dataContext)
@@ -30,7 +31,7 @@ namespace WebStore.Controllers
 
         public IActionResult Details(int id)
         {
-            Employee employee = _db.GetById(id);
+            EmployeeViewModel employee = _db.GetById(id);
             if (employee != null)
                 return View(employee);
             else
@@ -42,7 +43,7 @@ namespace WebStore.Controllers
         [Authorize(Roles="Administrator")]
         public IActionResult Edit(int? id)
         {
-            Employee model;
+            EmployeeViewModel model;
             if (id.HasValue)
             {
                 model = _db.GetById(id.Value);
@@ -51,7 +52,7 @@ namespace WebStore.Controllers
             }
             else
             {
-                model = new Employee();
+                model = new EmployeeViewModel();
             }
             return View(model);
         }
@@ -59,7 +60,7 @@ namespace WebStore.Controllers
         [HttpPost]
         [Route("Edit/{id?}")]
         [Authorize(Roles = "Administrator")]
-        public IActionResult Edit(Employee employee)
+        public IActionResult Edit(EmployeeViewModel employee)
         {
             if (!ModelState.IsValid)
             {
@@ -67,7 +68,7 @@ namespace WebStore.Controllers
             }
             if (employee.Id > -1)
             {
-                Employee oldEmployee = _db.GetById(employee.Id);
+                EmployeeViewModel oldEmployee = _db.GetById(employee.Id);
                 if (oldEmployee == null)
                     return NotFound();
                 oldEmployee.FirstName = employee.FirstName;

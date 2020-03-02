@@ -34,7 +34,7 @@ namespace WebStore
             #region dataServices
             services.AddSingleton<IEmployeeDataProvider, InMemoryEmployeeService>();
             services.AddScoped<IProductData, SQLProductData>();
-            services.AddDbContext<WebStoreContext>(options=>
+            services.AddDbContext<WebStoreContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             #endregion
