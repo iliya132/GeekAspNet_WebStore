@@ -11,6 +11,7 @@ using WebStore.Models.Interfaces;
 
 namespace WebStore.ServicesHosting.Controllers
 {
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductApiController : ControllerBase, IProductData

@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using WebStore.Clients.Orders;
 using WebStore.DAL;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Interfaces.Api;
@@ -79,11 +80,11 @@ namespace WebStore
             #region Корзина
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<ICartService, CookieCartService>();
-            services.AddScoped<IOrderService, SqlOrdersService>();
             #endregion
 
             #region Services
 
+            services.AddTransient<IOrderService, OrdersClient>();
             services.AddTransient<IValuesService, WebStore.Clients.ValuesClient>();
 
             #endregion

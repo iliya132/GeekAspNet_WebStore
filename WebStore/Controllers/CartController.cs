@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebStore.Domain.Entities.DTO;
 using WebStore.Domain.ViewModels;
 using WebStore.Models.Interfaces;
 
@@ -59,7 +60,19 @@ namespace WebStore.Controllers
         {
             if (ModelState.IsValid)
             {
-                var orderResult = _ordersService.CreateOrder(model, _cartService.TransformCart(), User.Identity.Name);
+                var create_order_model = new CreateOrderModel
+                {
+                    OrderViewModel = model,
+                    OrderItems = _cartService.TransformCart().Items
+                       .Select(item => new OrderItemDto
+                       {
+                           Id = item.Key.Id,
+                           Price = item.Key.Price,
+                           Quantity = item.Value
+                       })
+                       .ToList()
+                };
+                var orderResult = _ordersService.CreateOrder(create_order_model, User.Identity.Name);
                 _cartService.RemoveAll();
                 return RedirectToAction("OrderConfirmed", new { id = orderResult.Id });
             }

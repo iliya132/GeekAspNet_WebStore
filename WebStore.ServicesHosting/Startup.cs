@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using WebStore.Clients.Employees;
+using WebStore.Clients.Products;
 using WebStore.DAL;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Models;
@@ -38,13 +39,13 @@ namespace WebStore.ServicesHosting
             services.AddDbContext<WebStoreContext>(
                 options => options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+            services.AddTransient<IProductData, ProductsClient>();
 
             services.AddIdentity<User, IdentityRole>()
-               .AddEntityFrameworkStores<WebStoreContext>()
-               .AddDefaultTokenProviders();
+                .AddEntityFrameworkStores<WebStoreContext>()
+                .AddDefaultTokenProviders();
 
             services.AddTransient<IEmployeeDataProvider, EmployeesClient>();
-            services.AddScoped<IProductData, SQLProductData>();
             services.AddScoped<IOrderService, SqlOrdersService>();
             // Настройки для корзины
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

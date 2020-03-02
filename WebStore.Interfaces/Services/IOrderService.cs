@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebStore.Domain.Entities;
+using WebStore.Domain.Entities.DTO;
 using WebStore.Domain.ViewModels;
 
 namespace WebStore.Models.Interfaces
 {
     public interface IOrderService
     {
-        IEnumerable<Order> GetUserOrders(string userName);
+        IEnumerable<OrderDto> GetUserOrders(string userName);
 
-        Order GetOrderById(int id);
+        OrderDto GetOrderById(int id);
 
-        Order CreateOrder(OrderViewModel orderModel, CartViewModel transformCart, string userName);
+        OrderDto CreateOrder(CreateOrderModel orderModel,  string userName);
     }
 }
