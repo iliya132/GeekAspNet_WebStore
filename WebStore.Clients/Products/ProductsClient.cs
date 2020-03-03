@@ -15,7 +15,7 @@ namespace WebStore.Clients.Products
     {
         public ProductsClient(IConfiguration configuration) : base(configuration)
         {
-            ServiceAddress = "api/products";
+            ServiceAddress = "api/productapi";
         }
 
         protected sealed override string ServiceAddress { get; set; }
@@ -38,8 +38,7 @@ namespace WebStore.Clients.Products
         {
             var url = $"{ServiceAddress}";
             var response = Post(url, filter);
-            var result =
-            response.Content.ReadAsAsync<IEnumerable<ProductDto>>().Result;
+            var result = response.Content.ReadAsAsync<IEnumerable<ProductDto>>().Result;
             return result;
         }
 

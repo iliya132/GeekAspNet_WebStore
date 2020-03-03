@@ -7,10 +7,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using WebStore.Clients;
+using WebStore.Clients.Employees;
+using WebStore.Clients.Identity;
 using WebStore.Clients.Orders;
+using WebStore.Clients.Products;
 using WebStore.DAL;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Interfaces.Api;
+using WebStore.Interfaces.Services;
 using WebStore.Models;
 using WebStore.Models.Implementations;
 using WebStore.Models.Interfaces;
@@ -32,18 +37,25 @@ namespace WebStore
         {
             services.AddMvc(i=>i.EnableEndpointRouting=false);
 
-            #region dataServices
-            services.AddSingleton<IEmployeeDataProvider, InMemoryEmployeeService>();
-            services.AddScoped<IProductData, SQLProductData>();
-            services.AddDbContext<WebStoreContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            #endregion
+
 
             #region Identity
             services.AddIdentity<User, IdentityRole>().
-                AddEntityFrameworkStores<WebStoreContext>().
                 AddDefaultTokenProviders();
+
+
+            services.AddTransient<IUsersClient, UsersClient>();
+            //// Настройка Identity
+            services.AddTransient<IUserStore<User>, UsersClient>();
+            services.AddTransient<IUserRoleStore<User>, UsersClient>();
+            services.AddTransient<IUserClaimStore<User>, UsersClient>();
+            services.AddTransient<IUserPasswordStore<User>, UsersClient>();
+            services.AddTransient<IUserTwoFactorStore<User>, UsersClient>();
+            services.AddTransient<IUserEmailStore<User>, UsersClient>();
+            services.AddTransient<IUserPhoneNumberStore<User>, UsersClient>();
+            services.AddTransient<IUserLoginStore<User>, UsersClient>();
+            services.AddTransient<IUserLockoutStore<User>, UsersClient>();
+            services.AddTransient<IRoleStore<IdentityRole>, RolesClient>();
 
 
             services.Configure<IdentityOptions>(options =>
@@ -64,17 +76,6 @@ namespace WebStore
                 options.User.RequireUniqueEmail = true;
             });
 
-            //services.ConfigureApplicationCookie(options =>
-            //{
-            //    // Cookie settings
-            //    options.Cookie.HttpOnly = true;
-            //    options.ExpireTimeSpan = TimeSpan.FromDays(150);
-            //    options.LoginPath = "/Account/Login"; // If the LoginPath is not set here, ASP.NET Core will default to /Account/Login
-            //    options.LogoutPath = "/Account/Logout"; // If the LogoutPath is not set here, ASP.NET Core will default to /Account/Logout
-            //    options.AccessDeniedPath = "/Account/AccessDenied"; // If the AccessDeniedPath is not set here, ASP.NET Core will default to /Account/AccessDenied
-            //    options.SlidingExpiration = true;
-            //});
-
             #endregion
 
             #region Корзина
@@ -85,7 +86,9 @@ namespace WebStore
             #region Services
 
             services.AddTransient<IOrderService, OrdersClient>();
-            services.AddTransient<IValuesService, WebStore.Clients.ValuesClient>();
+            services.AddTransient<IValuesService, ValuesClient>();
+            services.AddTransient<IEmployeeDataProvider, EmployeesClient>();
+            services.AddTransient<IProductData, ProductsClient>();
 
             #endregion
         }
@@ -107,7 +110,6 @@ namespace WebStore
 
 
             app.UseAuthentication();
-            app.UseAuthorization();
 
             app.UseMvc(routes=>
             {

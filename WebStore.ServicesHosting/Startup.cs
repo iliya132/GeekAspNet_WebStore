@@ -39,7 +39,7 @@ namespace WebStore.ServicesHosting
             services.AddDbContext<WebStoreContext>(
                 options => options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddTransient<IProductData, ProductsClient>();
+            services.AddTransient<IProductData, SQLProductData>();
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<WebStoreContext>()
