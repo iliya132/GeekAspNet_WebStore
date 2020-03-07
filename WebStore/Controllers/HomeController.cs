@@ -22,6 +22,17 @@ namespace WebStore.Controllers
             return View();
         }
 
+        public IActionResult ThrowError(string id) => throw new ApplicationException(id);
+
+        public IActionResult ErrorStatus(string Id)
+        {
+            switch (Id)
+            {
+                default: return Content($"Статусный код {Id}");
+                case "404":
+                    return RedirectToAction(nameof(NotFound));
+            }
+        }
 
         [Route("Blog")]
         public IActionResult Blog()

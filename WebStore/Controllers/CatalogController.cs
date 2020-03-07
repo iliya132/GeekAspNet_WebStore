@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Domain.Entities;
 using WebStore.Domain.Entities.DTO;
@@ -19,26 +20,26 @@ namespace WebStore.Controllers
         {
             _productData = dataContext;
         }
-        public IActionResult Shop(int? categoryId, int? brandId)
+        public IActionResult Shop(int? SectionId, int? BrandId, [FromServices] IMapper Mapper)
         {
-            IEnumerable<ProductDto> products = _productData.GetProducts(new ProductFilter { BrandId = brandId, CategoryId = categoryId });
-
-            CatalogViewModel model = new CatalogViewModel()
+            var products = _productData.GetProducts(new ProductFilter
             {
-                BrandId = brandId,
-                CategoryId = categoryId,
-                Products = products.Select(product => new ProductViewModel()
-                {
-                    Id = product.Id,
-                    ImageUrl = product.ImageUrl,
-                    Name = product.Name,
-                    Order = product.Order,
-                    Price = product.Price,
-                    Brand = product.Brand != null ? product.Brand.Name : string.Empty
-                }).OrderBy(product => product.Order).ToList()
-            };
+                BrandId = BrandId
+            });
 
-            return View(model);
+            return View(new CatalogViewModel
+            {
+                BrandId = BrandId,
+                Products = products.Select(Mapper.Map<ProductViewModel>).OrderBy(p => p.Order)
+                //Products = products.Select(p => new ProductViewModel
+                //{
+                //    Id = p.Id,
+                //    Name = p.Name,
+                //    Order = p.Order,
+                //    Price = p.Price,
+                //    ImageUrl = p.ImageUrl
+                //}).OrderBy(p => p.Order)
+            });
         }
 
         public IActionResult ProductDetails(int id)
