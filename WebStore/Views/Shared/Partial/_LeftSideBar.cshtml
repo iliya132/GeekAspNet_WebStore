@@ -1,8 +1,12 @@
 ﻿<div class="left-sidebar">
 
-    @await Component.InvokeAsync("Categories")
+    <vc:categories category-id="@Context.Request.Query["CategoryId"]" />
 
-    @await Component.InvokeAsync("Brands")
+    <vc:brands brand-id="@Context.Request.Query["BrandId"]" />
+
+    @*@await Component.InvokeAsync("Categories")
+
+        @await Component.InvokeAsync("Brands")*@
 
     <div class="price-range">
         <!--price-range-->

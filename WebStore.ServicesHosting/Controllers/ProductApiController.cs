@@ -26,11 +26,19 @@ namespace WebStore.ServicesHosting.Controllers
         {
             return _productData.GetCategories();
         }
+
+        [HttpGet("categories/{id}")]
+        public CategoryDTO GetCategoriesById(int id) => _productData.GetCategoriesById(id);
+
         [HttpGet("brands")]
         public IEnumerable<Brand> GetBrands()
         {
             return _productData.GetBrands();
         }
+
+        [HttpGet("brands/{id}")]
+        public BrandDto GetBrandById(int id) => _productData.GetBrandById(id);
+
         [HttpPost]
         [ActionName("Post")]
         public IEnumerable<ProductDto> GetProducts([FromBody]ProductFilter filter)

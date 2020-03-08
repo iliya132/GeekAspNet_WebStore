@@ -31,14 +31,6 @@ namespace WebStore.Controllers
             {
                 BrandId = BrandId,
                 Products = products.Select(Mapper.Map<ProductViewModel>).OrderBy(p => p.Order)
-                //Products = products.Select(p => new ProductViewModel
-                //{
-                //    Id = p.Id,
-                //    Name = p.Name,
-                //    Order = p.Order,
-                //    Price = p.Price,
-                //    ImageUrl = p.ImageUrl
-                //}).OrderBy(p => p.Order)
             });
         }
 

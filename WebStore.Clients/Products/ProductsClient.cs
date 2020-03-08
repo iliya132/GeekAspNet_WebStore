@@ -27,12 +27,16 @@ namespace WebStore.Clients.Products
             return result;
         }
 
+        public CategoryDTO GetCategoriesById(int id) => Get<CategoryDTO>($"{ServiceAddress}/sections/{id}");
+
         public IEnumerable<Brand> GetBrands()
         {
             var url = $"{ServiceAddress}/brands";
             var result = Get<List<Brand>>(url);
             return result;
         }
+
+        public BrandDto GetBrandById(int id) => Get<BrandDto>($"{ServiceAddress}/brands/{id}");
 
         public IEnumerable<ProductDto> GetProducts(ProductFilter filter)
         {
