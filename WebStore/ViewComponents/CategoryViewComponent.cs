@@ -14,20 +14,29 @@ namespace WebStore.ViewComponents
     {
         private readonly IProductData _productService;
 
+        public IViewComponentResult Invoke(string CategoryId)
+        {
+            var category_id = int.TryParse(CategoryId, out var id) ? id : (int?)null;
+
+            var sections = GetCategories(category_id, out var parent_category_id);
+
+            return View(new CategoryCompleteViewModel
+            {
+                Categories = sections,
+                CurrentCategoryId = category_id,
+                CurrentParrentCategoryId = parent_category_id
+            });
+        }
+
         public CategoryViewComponent(IProductData productService)
         {
             _productService = productService;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync()
-        {
-            var categories = GetCategories();
 
-            return View(categories);
-        }
-
-        private List<CategoryViewModel> GetCategories()
+        private List<CategoryViewModel> GetCategories(int? CategoryId, out int? ParentCategoryId)
         {
+            ParentCategoryId = null;
             IEnumerable<Category> categories = _productService.GetCategories();
 
             List<CategoryViewModel> parentCategoriesViewModel = categories.
@@ -47,6 +56,9 @@ namespace WebStore.ViewComponents
 
                 foreach (Category childCategory in childCategories)
                 {
+                    if (childCategory.Id == CategoryId)
+                        ParentCategoryId = item.Id;
+
                     item.ChildCategories.Add(new CategoryViewModel()
                     {
                         Id = childCategory.Id,

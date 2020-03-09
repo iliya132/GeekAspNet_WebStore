@@ -8,6 +8,7 @@ using WebStore.Domain.Entities;
 using WebStore.Domain.Entities.DTO;
 using WebStore.Domain.Filters;
 using WebStore.Models.Interfaces;
+using WebStore.Services.Mapping;
 
 namespace WebStore.Models.Implementations
 {
@@ -21,7 +22,11 @@ namespace WebStore.Models.Implementations
         }
         public IEnumerable<Brand> GetBrands() => _context.Brands;
 
+        public BrandDto GetBrandById(int id) => _context.Brands.Find(id).ToDTO();
+
         public IEnumerable<Category> GetCategories() => _context.Categories;
+
+        public CategoryDTO GetCategoriesById(int id) => _context.Categories.Find(id).ToDTO();
 
         public IEnumerable<ProductDto> GetProducts(ProductFilter filter)
         {

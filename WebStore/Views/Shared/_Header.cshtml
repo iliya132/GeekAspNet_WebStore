@@ -92,27 +92,27 @@
                     </div>
                     <div class="mainmenu pull-left">
                         <ul class="nav navbar-nav collapse navbar-collapse">
-                            <li><a asp-controller="Home" asp-action="Index" class="active">Home</a></li>
+                            <li><a is-active-route  asp-controller="Home" asp-action="Index" class="active">Home</a></li>
                             <li class="dropdown">
-                                <a asp-controller="Catalog" asp-action="Shop">Shop<i class="fa fa-angle-down"></i></a>
+                                <a is-active-route ignore-action asp-controller="Catalog" asp-action="Shop">Shop<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
-                                    <li><a asp-controller="Catalog" asp-action="Shop">Products</a></li>
-                                    <li><a asp-controller="Catalog" asp-action="ProductDetails">Product Details</a></li>
-                                    <li><a asp-controller="Home" asp-action="Checkout">Checkout</a></li>
-                                    <li><a asp-controller="Cart" asp-action="Details">Cart</a></li>
-                                    <li><a asp-controller="Account" asp-action="Login">Login</a></li>
+                                    <li><a is-active-route ignore-action asp-controller="Catalog" asp-action="Shop">Products</a></li>
+                                    <li><a is-active-route asp-controller="Catalog" asp-action="ProductDetails">Product Details</a></li>
+                                    <li><a is-active-route asp-controller="Home" asp-action="Checkout">Checkout</a></li>
+                                    <li><a is-active-route asp-controller="Cart" asp-action="Details">Cart</a></li>
+                                    <li><a is-active-route asp-controller="Account" asp-action="Login">Login</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown">
                                 <a href="#">Blog<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
-                                    <li><a asp-controller="Home" asp-action="Blog">Blog List</a></li>
-                                    <li><a asp-controller="Home" asp-action="BlogSingle">Blog Single</a></li>
+                                    <li><a is-active-route ignore-action asp-controller="Home" asp-action="Blog">Blog List</a></li>
+                                    <li><a is-active-route asp-controller="Home" asp-action="BlogSingle">Blog Single</a></li>
                                 </ul>
                             </li>
-                            <li><a asp-controller="Home" asp-action="NotFound">404</a></li>
-                            <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
-                            <li><a asp-controller="Employees" asp-action="index">Employees</a></li>
+                            <li><a is-active-route asp-controller="Home" asp-action="NotFound">404</a></li>
+                            <li><a is-active-route asp-controller="Home" asp-action="Contact">Contact</a></li>
+                            <li><a is-active-route ignore-action asp-controller="Employees" asp-action="index">Employees</a></li>
                         </ul>
                     </div>
                 </div>

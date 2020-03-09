@@ -13,6 +13,7 @@ namespace WebStore.Domain.Entities.DTO
         public string ImageUrl { get; set; }
         public decimal Price { get; set; }
         public BrandDto Brand { get; set; }
+        public CategoryDTO Category { get; set; }
     }
 
 }

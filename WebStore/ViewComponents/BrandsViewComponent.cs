@@ -19,11 +19,12 @@ namespace WebStore.ViewComponents
             _productData = productData;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync()
-        {
-            var brands = GetBrands();
-            return View(brands);
-        }
+        public IViewComponentResult Invoke(string BrandId) =>
+            View(new BrandCompleteViewModel
+            {
+                Brands = GetBrands(),
+                CurrentBrandId = int.TryParse(BrandId, out var id) ? id : (int?)null
+            });
 
         private IEnumerable<BrandViewModel> GetBrands()
         {
