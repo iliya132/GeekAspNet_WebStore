@@ -56,7 +56,7 @@ namespace WebStore.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult CheckOut(OrderViewModel model)
+        public IActionResult CheckOut(OrderViewModel model, [FromServices] IOrderService OrderService)
         {
             if (ModelState.IsValid)
             {
