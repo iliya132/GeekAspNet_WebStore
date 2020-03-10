@@ -18,7 +18,7 @@ namespace WebStore.Areas.Admin.Controllers
 
         public IActionResult Index() => View();
 
-        public IActionResult ProductList() => View(_ProductData.GetProducts(new ProductFilter()));
+        public IActionResult ProductList() => View(_ProductData.GetProducts(new ProductFilter()).Products);
 
         public IActionResult Edit(int? id) => View();
 

@@ -9,5 +9,7 @@ namespace WebStore.Domain.Filters
         public int? BrandId { get; set; }
         public int? CategoryId { get; set; }
         public List<int> Ids { get; set; }
+        public int Page { get; set; }
+        public int? PageSize { get; set; }
     }
 }

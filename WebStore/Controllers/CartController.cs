@@ -52,7 +52,7 @@ namespace WebStore.Controllers
         public IActionResult AddToCart(int id, string returnUrl)
         {
             _cartService.AddToCart(id);
-            return Redirect(returnUrl);
+            return Json(new { id, message = "Товар добавлен в корзину" });
         }
 
         [HttpPost, ValidateAntiForgeryToken]
@@ -90,7 +90,34 @@ namespace WebStore.Controllers
             return View();
         }
 
+        #region API
 
+        public IActionResult GetCartView() => ViewComponent("Cart");
+
+        public IActionResult AddToCartAPI(int id)
+        {
+            _cartService.AddToCart(id);
+            return Json(new { id, message = $"Товар id:{id} был успешно добавлен в корзину" });
+        }
+
+        public IActionResult DecrimentFromCartAPI(int id)
+        {
+            _cartService.DecrementFromCart(id);
+            return Json(new { id, message = $"Количество товара с id:{id} в корзине было уменьшено на 1" });
+        }
+
+        public IActionResult RemoveFromCartAPI(int id)
+        {
+            _cartService.RemoveFromCart(id);
+            return Json(new { id, message = $"Товар id:{id} был удалён из корзины" });
+        }
+
+        public IActionResult RemoveAllAPI()
+        {
+            _cartService.RemoveAll();
+            return Json(new { message = "Корзина была очищена" });
+        }
+        #endregion
     }
 
 }

@@ -22,7 +22,7 @@ namespace WebStore.ServicesHosting.Controllers
             _productData = productData;
         }
         [HttpGet("sections")]
-        public IEnumerable<Category> GetCategories()
+        public IEnumerable<CategoryDTO> GetCategories()
         {
             return _productData.GetCategories();
         }
@@ -31,22 +31,22 @@ namespace WebStore.ServicesHosting.Controllers
         public CategoryDTO GetCategoriesById(int id) => _productData.GetCategoriesById(id);
 
         [HttpGet("brands")]
-        public IEnumerable<Brand> GetBrands()
+        public IEnumerable<BrandDTO> GetBrands()
         {
             return _productData.GetBrands();
         }
 
         [HttpGet("brands/{id}")]
-        public BrandDto GetBrandById(int id) => _productData.GetBrandById(id);
+        public BrandDTO GetBrandById(int id) => _productData.GetBrandById(id);
 
         [HttpPost]
         [ActionName("Post")]
-        public IEnumerable<ProductDto> GetProducts([FromBody]ProductFilter filter)
+        public PagedProductsDTO GetProducts([FromBody]ProductFilter filter)
         {
             return _productData.GetProducts(filter);
         }
         [HttpGet("{id}"), ActionName("Get")]
-        public ProductDto GetProductById(int id)
+        public ProductDTO GetProductById(int id)
         {
             var product = _productData.GetProductById(id);
             return product;

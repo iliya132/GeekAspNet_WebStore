@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebStore.Domain.Entities;
+using WebStore.Domain.Entities.DTO;
 using WebStore.Domain.ViewModels;
 using WebStore.Models.Interfaces;
 
@@ -37,7 +38,7 @@ namespace WebStore.ViewComponents
         private List<CategoryViewModel> GetCategories(int? CategoryId, out int? ParentCategoryId)
         {
             ParentCategoryId = null;
-            IEnumerable<Category> categories = _productService.GetCategories();
+            IEnumerable<CategoryDTO> categories = _productService.GetCategories();
 
             List<CategoryViewModel> parentCategoriesViewModel = categories.
                 Where(i => !i.ParentId.HasValue).
@@ -52,9 +53,9 @@ namespace WebStore.ViewComponents
 
             foreach (CategoryViewModel item in parentCategoriesViewModel)
             {
-                IEnumerable<Category> childCategories = categories.Where(i => i.ParentId == item.Id);
+                IEnumerable<CategoryDTO> childCategories = categories.Where(i => i.ParentId == item.Id);
 
-                foreach (Category childCategory in childCategories)
+                foreach (CategoryDTO childCategory in childCategories)
                 {
                     if (childCategory.Id == CategoryId)
                         ParentCategoryId = item.Id;

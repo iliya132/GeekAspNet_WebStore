@@ -119,7 +119,7 @@ namespace WebStore.Models.Implementations
             var products = _productData.GetProducts(new ProductFilter()
             {
                 Ids = Cart.Items.Select(i => i.ProductId).ToList()
-            }).Select(p => new ProductViewModel()
+            }).Products.Select(p => new ProductViewModel()
             {
                 Id = p.Id,
                 ImageUrl = p.ImageUrl,

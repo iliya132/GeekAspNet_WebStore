@@ -20,52 +20,43 @@ namespace WebStore.Models.Implementations
         {
             _context = context;
         }
-        public IEnumerable<Brand> GetBrands() => _context.Brands;
+        public IEnumerable<BrandDTO> GetBrands() => _context.Brands.ToDTO();
 
-        public BrandDto GetBrandById(int id) => _context.Brands.Find(id).ToDTO();
+        public BrandDTO GetBrandById(int id) => _context.Brands.Find(id).ToDTO();
 
-        public IEnumerable<Category> GetCategories() => _context.Categories;
+        public IEnumerable<CategoryDTO> GetCategories() => _context.Categories.ToDTO();
 
         public CategoryDTO GetCategoriesById(int id) => _context.Categories.Find(id).ToDTO();
 
-        public IEnumerable<ProductDto> GetProducts(ProductFilter filter)
+        public PagedProductsDTO GetProducts(ProductFilter filter)
         {
             var query = _context.Products.Include("Brand").Include("Category").AsQueryable();
             if (filter.BrandId.HasValue)
                 query = query.Where(c => c.BrandId.HasValue && c.BrandId.Value.Equals(filter.BrandId.Value));
             if (filter.CategoryId.HasValue)
                 query = query.Where(c => c.CategoryId.Equals(filter.CategoryId.Value));
-            return query.Select(i=>new ProductDto()
+            if (filter?.Ids?.Count > 0)
+                query = query.Where(product => filter.Ids.Contains(product.Id));
+
+            var total_count = query.Count();
+
+            if (filter?.PageSize != null)
+                query = query
+                   .Skip((filter.Page - 1) * (int)filter.PageSize)
+                   .Take((int)filter.PageSize);
+
+            return new PagedProductsDTO
             {
-                Name = i.Name,
-                Id = i.Id,
-                ImageUrl = i.ImageUrl,
-                Order = i.Order,
-                Price = i.Price,
-                Brand = new BrandDto()
-                {
-                    Id = i.BrandId.HasValue ? i.BrandId.Value : 0,
-                    Name = i.Brand == null ? null : i.Brand.Name
-                }
-            }).ToList();
+                Products = query.AsEnumerable().ToDTO(),
+                TotalCount = total_count
+            };
         }
 
-        public ProductDto GetProductById(int id)
-        {
-            return _context.Products.Include("Brand").Include("Category").Select(i=> new ProductDto()
-            {
-                Name = i.Name,
-                Id = i.Id,
-                ImageUrl = i.ImageUrl,
-                Order = i.Order,
-                Price = i.Price,
-                Brand = new BrandDto()
-                {
-                    Id = i.BrandId.HasValue ? i.BrandId.Value : 0,
-                    Name = i.Brand == null ? null : i.Brand.Name
-                }
-            }).FirstOrDefault(p => p.Id.Equals(id));
-        }
+        public ProductDTO GetProductById(int id) =>
+            _context.Products
+               .Include(p => p.Brand)
+               .Include(p => p.Category)
+               .FirstOrDefault(p => p.Id == id).ToDTO();
 
 
     }

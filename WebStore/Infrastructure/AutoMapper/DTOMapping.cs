@@ -8,7 +8,7 @@ namespace WebStore.Infrastructure.AutoMapper
     {
         public DTOMapping()
         {
-            CreateMap<ProductDto, ProductViewModel>().ReverseMap();
+            CreateMap<ProductDTO, ProductViewModel>().ReverseMap();
         }
     }
 }

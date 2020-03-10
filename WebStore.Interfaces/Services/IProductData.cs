@@ -10,11 +10,11 @@ namespace WebStore.Models.Interfaces
 {
     public interface IProductData
     {
-        IEnumerable<Brand> GetBrands();
-        BrandDto GetBrandById(int id);
-        IEnumerable<Category> GetCategories();
+        IEnumerable<BrandDTO> GetBrands();
+        BrandDTO GetBrandById(int id);
+        IEnumerable<CategoryDTO> GetCategories();
         CategoryDTO GetCategoriesById(int id);
-        IEnumerable<ProductDto> GetProducts(ProductFilter filter);
-        ProductDto GetProductById(int id);
+        PagedProductsDTO GetProducts(ProductFilter filter);
+        ProductDTO GetProductById(int id);
     }
 }

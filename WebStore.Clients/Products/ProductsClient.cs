@@ -20,38 +20,37 @@ namespace WebStore.Clients.Products
 
         protected sealed override string ServiceAddress { get; set; }
 
-        public IEnumerable<Category> GetCategories()
+        public IEnumerable<CategoryDTO> GetCategories()
         {
             var url = $"{ServiceAddress}/sections";
-            var result = Get<List<Category>>(url);
+            var result = Get<List<CategoryDTO>>(url);
             return result;
         }
 
         public CategoryDTO GetCategoriesById(int id) => Get<CategoryDTO>($"{ServiceAddress}/sections/{id}");
 
-        public IEnumerable<Brand> GetBrands()
+        public IEnumerable<BrandDTO> GetBrands()
         {
             var url = $"{ServiceAddress}/brands";
-            var result = Get<List<Brand>>(url);
+            var result = Get<List<BrandDTO>>(url);
             return result;
         }
 
-        public BrandDto GetBrandById(int id) => Get<BrandDto>($"{ServiceAddress}/brands/{id}");
+        public BrandDTO GetBrandById(int id) => Get<BrandDTO>($"{ServiceAddress}/brands/{id}");
 
-        public IEnumerable<ProductDto> GetProducts(ProductFilter filter)
-        {
-            var url = $"{ServiceAddress}";
-            var response = Post(url, filter);
-            var result = response.Content.ReadAsAsync<IEnumerable<ProductDto>>().Result;
-            return result;
-        }
+        public PagedProductsDTO GetProducts(ProductFilter Filter = null) =>
+            Post(ServiceAddress, Filter)
+               .Content
+               .ReadAsAsync<PagedProductsDTO>()
+               .Result;
 
-        public ProductDto GetProductById(int id)
+        public ProductDTO GetProductById(int id)
         {
             var url = $"{ServiceAddress}/{id}";
-            var result = Get<ProductDto>(url);
+            var result = Get<ProductDTO>(url);
             return result;
         }
+
 
     }
 }

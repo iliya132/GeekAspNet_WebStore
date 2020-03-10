@@ -39,15 +39,29 @@
         @RenderBody()
     </div>
 
-        @await Html.PartialAsync("_Footer")
+    @await Html.PartialAsync("_Footer")
 
 
 
-        <script src="~/js/jquery.js"></script>
-        <script src="~/js/bootstrap.min.js"></script>
-        <script src="~/js/jquery.scrollUp.min.js"></script>
-        <script src="~/js/price-range.js"></script>
-        <script src="~/js/jquery.prettyPhoto.js"></script>
-        <script src="~/js/main.js"></script>
+    <script src="~/js/jquery.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/jquery.scrollUp.min.js"></script>
+    <script src="~/js/price-range.js"></script>
+    <script src="~/js/jquery.prettyPhoto.js"></script>
+    <script src="~/js/main.js"></script>
+    <script src="~/js/cart/CartLogic.js"></script>
+    <script type="text/javascript">
+
+    $(function() {
+        Cart.init({
+            addToCartLink: '@Url.Action("AddToCart","Cart")',
+            getCartViewLink : '@Url.Action("GetCartView", "Cart")'
+        });
+    });
+    </script>
+    @section Scripts
+{
+        @await RenderSectionAsync("Scripts", false)
+    }
 </body>
 </html>

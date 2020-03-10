@@ -25,32 +25,47 @@
                 @{
                     var sumCart = 0m;
                 }
-                @foreach (var item in Model.CartViewModel.Items)
+                @foreach (var (product, quantity) in Model.CartViewModel.Items)
                 {
-                    sumCart += (item.Value * item.Key.Price);
+                    sumCart += quantity * product.Price;
+
                     <tr>
                         <td class="cart_product">
-                            <a href=""><img src="~/images/shop/@item.Key.ImageUrl" alt=""></a>
+                            <a asp-controller="Catalog" asp-action="Details" asp-route-id="@product.Id">
+                                <img src="~/images/cart/@product.ImageUrl" alt="@product.Name">
+                            </a>
                         </td>
                         <td class="cart_description">
-                            <h4><a asp-action="ProductDetails" asp-controller="Catalog" asp-route-id="@item.Key.Id">@item.Key.Name</a></h4>
-                            <p>Артикул: 1089772</p>
+                            <h4><a asp-controller="Catalog" asp-action="Details" asp-route-id="@product.Id">@product.Name</a></h4>
+                            <p>Web ID: @product.Id.ToString("00000")</p>
                         </td>
-                        <td class="cart_price">
-                            <p>@(item.Key.Price.ToString("C"))</p>
+                        <td class="cart_price" data-price="@product.Price">
+                            <p>@product.Price.ToString("C")</p>
                         </td>
                         <td class="cart_quantity">
                             <div class="cart_quantity_button">
-                                <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@item.Key.Id" asp-route-returnUrl="@Context.Request.Path" class="cart_quantity_up"> + </a>
-                                <input class="cart_quantity_input" type="text" name="quantity" value="@item.Value" autocomplete="off" size="2">
-                                <a asp-controller="Cart" asp-action="DecrementFromCart" asp-route-id="@item.Key.Id" class="cart_quantity_down"> - </a>
+                                <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@product.Id"
+                                   data-id="@product.Id"
+                                   class="cart_quantity_up">
+                                    &nbsp;+&nbsp;
+                                </a>
+                                <input class="cart_quantity_input" type="text" name="quantity" value="@quantity" autocomplete="off" size="2">
+                                <a asp-action="DecrimentFromCart" asp-route-id="@product.Id"
+                                   data-id="@product.Id"
+                                   class="cart_quantity_down">
+                                    &nbsp;-&nbsp;
+                                </a>
                             </div>
                         </td>
                         <td class="cart_total">
-                            <p class="cart_total_price">@((item.Value * item.Key.Price).ToString("C"))</p>
+                            <p class="cart_total_price" data-price="@(quantity * product.Price)">@((quantity * product.Price).ToString("C"))</p>
                         </td>
                         <td class="cart_delete">
-                            <a class="cart_quantity_delete" asp-controller="Cart" asp-action="RemoveFromCart" asp-route-id="@item.Key.Id"><i class="fa fa-times"></i></a>
+                            <a asp-action="RemoveFromCart" asp-route-id="@product.Id"
+                               data-id="@product.Id"
+                               class="cart_quantity_delete">
+                                <i class="fa fa-times"></i>
+                            </a>
                         </td>
                     </tr>
                 }
